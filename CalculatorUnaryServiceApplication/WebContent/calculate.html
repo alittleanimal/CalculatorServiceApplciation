@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<script type="text/javascript">
+function getdetails() {
+	var n1 =  document.getElementById("no1").value;
+    var opt =  document.getElementById("opt").value;
+    console.log('n1 : '+n1+' opt : '+opt);
+    var reqParamNew = 'no1='+n1+'&opt='+opt;
+    var url = "http://localhost:8081/CalculatorUnaryServiceApplication/"+"/calculator";
+    console.log(' url : '+url);
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.open('GET',url+"?"+reqParamNew,true);
+    xmlhttp.send(null);
+    xmlhttp.onreadystatechange = function() {
+           if (xmlhttp.readyState == 4) {
+              if ( xmlhttp.status == 200) {
+                      var val = xmlhttp.responseText;
+                      document.getElementById('result').innerHTML=val;  
+               		console.log(" result : xmlhttp.responseText : "+xmlhttp.responseText);
+               		
+                   }
+              		else{
+              		  console.log(" xmlhttp.responseText : "+xmlhttp.responseText);
+              		}
+             }
+    };
+}
+ 
+function resetVal(){
+	document.getElementById("result").innerHTML = "";
+	document.getElementById("no1").value  = "";
+} 
+
+</script>
+<body>
+	<form>
+		Number 1 : <input type="text" name="no1" id="no1"> <br>
+		
+		<br> Operator : <select name="operator" id="opt">
+		    		
+			<option value="r">sqrt</option>
+			<option value="i">inv</option>
+
+		</select> <br>
+		<br> <input type="button" value="CALCULATE RESULT"
+			onclick="getdetails()" id="go">&nbsp; <input type="button"
+			value="RESET" id="reset" onclick="resetVal()"> <br>
+		<br> Result:
+		<div id="result"></div>
+
+		<br>
+	</form>
+</body>
+</html>
+

@@ -1,0 +1,195 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>CalculatorUnaryServiceApplication</groupId>
+  <artifactId>CalculatorUnaryServiceApplication</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>war</packaging>
+  
+  <dependencies>
+	
+		<dependency>
+      <groupId>org.seleniumhq.selenium</groupId>
+      <artifactId>selenium-firefox-driver</artifactId>
+      <version>2.45.0</version>
+    </dependency>  
+
+    <dependency>
+      <groupId>org.seleniumhq.selenium</groupId>
+      <artifactId>selenium-chrome-driver</artifactId>
+      <version>2.45.0</version>
+    </dependency>  
+		
+		
+		
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.17</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>jstl</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.2</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.1.0</version>
+		</dependency>
+			
+  <dependency>
+            <groupId>info.cukes</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <version>1.2.4</version>
+            
+        </dependency>
+
+        <dependency>
+            <groupId>info.cukes</groupId>
+            <artifactId>cucumber-junit</artifactId>
+            <version>1.2.4</version>
+            <!--scope>test</scope-->
+        </dependency>
+	   <dependency>
+            <groupId>info.cukes</groupId>
+            <artifactId>cucumber-core</artifactId>
+            <version>1.2.4</version>
+            <!--scope>test</scope-->
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+         <!--scope>test</scope-->
+        </dependency>
+
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>2.52.0</version>
+        </dependency>
+	</dependencies>
+
+	<build>
+		<sourceDirectory>src\main\java</sourceDirectory>
+		<scriptSourceDirectory>src\main\scripts</scriptSourceDirectory>
+		<testSourceDirectory>src\test\java</testSourceDirectory>
+		<outputDirectory>target\classes</outputDirectory>
+		<testOutputDirectory>target\test-classes</testOutputDirectory>
+		<finalName>CalculatorUnaryServiceApplication</finalName>
+
+
+		<resources>
+			<resource>
+				<directory>src\main\resources</directory>
+				<excludes>
+					<exclude>**/*.java</exclude>
+				</excludes>
+
+
+			</resource>
+			<resource>
+				<directory>src\test\resources</directory>
+				<excludes>
+					<exclude>**/*.java</exclude>
+				</excludes>
+
+
+			</resource>
+			<resource>
+				<directory>config</directory>
+				<excludes>
+					<exclude>**/*.java</exclude>
+				</excludes>
+
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+			 	<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.17</version>
+				<configuration>
+
+					<excludes>
+						<exclude>**/it/*.java</exclude>
+					</excludes>
+
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.4</version>
+				<configuration>
+					<warSourceDirectory>WebContent</warSourceDirectory>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+				</configuration>
+			</plugin>
+		</plugins>
+
+	</build>
+	 <profiles>
+        <!-- add Selenium integration tests -->
+        <profile>
+            <id>selenium-tests</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>1.4.0</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>java</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <mainClass>RunTest</mainClass>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <version>2.17</version>
+                        <configuration>
+                            <systemProperties>
+                                <property>
+                                    <name>applicationURL</name>
+                                    <value>${applicationURL}</value>
+                                </property>
+                            </systemProperties>
+                            <skip>false</skip>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                   <goal>integration-test</goal>
+                                    <goal>verify</goal>
+                                </goals>
+                                <configuration>
+                                    <skip>false</skip>
+                                    <includes>
+                                        <include>**/*.java</include>
+                                    </includes>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+
+	</profiles>
+</project>
